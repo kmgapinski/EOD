@@ -1,0 +1,226 @@
+html{
+    height: 100%;
+    min-width:300px; /*original 300
+    */
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin:0 ;
+    padding: 0px;
+    position: relative;
+    min-height: 100%;
+}
+/*
+body header{
+    background-color: #196950;
+    color:#fec425;
+    position: absolute;
+    width:100%;
+    height:80px;
+}
+body header #tittle{
+    padding:0px;
+    padding-top:0px;
+    margin: 0px;
+    font-family:cursive;
+    text-align: center;
+    font-size: 30px;
+}
+
+
+a {
+  color: #fec425;
+  text-decoration: none; /* no underline 
+}
+body  footer{
+    position: absolute;
+    width:100%;
+    height:50px;
+    bottom:0;
+    margin:0px;
+    background-color: #196950;
+    color:#fec425;
+}
+*/
+
+body #content{
+    margin: 0px;
+    position: absolute;
+    /*top:80px;*/
+    /*bottom:50px;*/
+    width:100%;
+    background-image:  url("../images/backimg.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    overflow:auto;
+    height:auto;
+    display:inline-block;
+    float:none;
+    margin:auto;
+}
+#cont{
+    text-align: center;
+    align-content:center;
+    margin:auto;
+}
+#container1,#container2{
+    padding:0px; /*20*/
+    display: inline-block;    
+    align-content:center;
+    text-align: center;
+    margin:auto;
+    height:580px !important; /*580*/
+    margin-top:5px; /*10*/
+    margin-bottom:5px !important; /*25*/
+}
+#container1{
+    width:550px;
+    margin-right:55px !important; 
+}
+#container2{
+     margin-left: 5px; /*25*/
+    color:#fec425; 
+    width: 680px; /*680*/
+}
+h1 {
+    color: blue;
+    border: 2px dotted green;
+    text-align: center;
+    margin-top: 0px;
+    border-radius: 15px;
+}
+label {
+    float: left;
+    width: 11em;
+    text-align: right;
+}
+/*tabs*/
+.tabs {
+    position:relative;
+    left:10px;
+    height:inherit;
+    width:inherit;
+}
+.selectedTab
+{   background-color:white;
+    border-bottom:solid 1px white;
+    border-radius:15px;
+
+}
+.tabs .digiTabs {
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+    top: 1px;
+    width:710px !important; /*original 710*/
+    display: table;
+    width: 100%;
+}
+.tabs .digiTabs li {
+    cursor: pointer;
+    border-bottom:none;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    border:solid 1px black;
+    background-color:#196950;
+    color:#fec425;
+    padding:6px 5px;
+    display: table-cell;
+    text-align:justify
+}
+.tabs .digiTabs .selected {
+    background-color:#fec425;
+    color:#196950;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-left: 1px solid #000;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+}
+.tabContent {
+    border:solid 1px black;
+    padding:14px;
+    background-color:rgba(0,0,0,0.7) ;
+    /*border-radius:15px;
+    border-top-left-radius: 0px;*/
+    color:#fec425;
+    width:100%;
+    width:inherit;
+    height:inherit;
+    margin-bottom:20px;
+}
+#tabs-1{
+    display:block;}
+/*hide the other tabs content*/
+#tabs-2,#tabs-3,#tabs-4,#tabs-5,#tabs-6,#tabs-7{
+    display:none;
+}
+/*be careful changing settings for img and iframe it may effect google maps even if it is not directly related*/
+img{
+    height:280px;
+    width:auto;
+}
+iframe{ 
+    position: absolute;
+    width:inherit !important;
+    height:inherit !important;
+}
+#map-canvas{
+    border-radius: 15px;
+            height:85% !important;
+
+}
+/*slider*/
+
+.slider {
+    height:inherit;
+    width:inherit;
+}
+.slide-viewer {
+    position: relative; /* needed for IE7 */
+    overflow: hidden;
+    height:inherit;
+}
+.slide-group {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.slide {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+}
+.slide:first-child {
+    display: block;
+}
+.slider img{
+    height:100%;
+    width: 100%;
+    min-height:100%;
+    min-width: 100%;
+}
+/*buttons slider*/
+.slide-buttons {
+    text-align: center;
+    position:fixed ;
+    position: relative;
+    background-color: white;
+}
+.slide-btn {
+    border: none;
+    background: none;
+    color: #196950;
+    font-size: 300%;
+    top: 0;
+}
+.slide-btn.active, .slide-btn:hover {
+    color: #fec425;
+    cursor: pointer;
+}
+.sliddd {
+    float: none;
+    position: relative;
+    width: 500px;
+    height: 350px;
+}

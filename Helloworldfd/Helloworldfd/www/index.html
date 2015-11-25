@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<!--
+    Copyright 1994-2004. EOD Project. All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+    1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+    2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+    THIS SOFTWARE IS PROVIDED BY THE EOD PROJECT "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE EOD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+    The views and conclusions contained in the software and documentation are those of the authors and should not be interpreted as representing official policies, either expressed or implied, of the EOD Project.
+    //bsd license
+-->
+
+<html lang="en">
+<head runat="server">
+    <meta charset="UTF-8" />
+    <title>Engineering on Display</title>
+    <!-- graph and main page stylesheets-->
+    
+    <link rel="stylesheet" type="css" href="css/graph.css" />
+    <link rel="stylesheet" href="css/styling.css" />
+    <!--<script src="cordova.js"></script>-->
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/dist/jquery.js"></script>
+
+    <!--jqplot libraries
+    //in order for bar renderer to work pie renderer should be removed dynamically from the js-->
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/dist/jquery.jqplot.js"></script>
+    <!--<script src="../script/jquery.jqplot.js"></script>-->
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/dist/plugins/jqplot.pieRenderer.js"></script>
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/dist/plugins/jqplot.categoryAxisRenderer.js"></script>
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/dist/plugins/jqplot.pointLabels.js"></script>
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/dist/plugins/jqplot.highlighter.min.js"></script>
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/dist/plugins/jqplot.canvasTextRenderer.min.js"></script>
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/dist/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/dist/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/dist/plugins/jqplot.barRenderer.js"></script>
+    
+    <!--Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false"></script>
+    <!--main js for graph changes and page responses-->
+    <!--<script src="scripts/index.js"></script>-->
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/eod_test.js"></script>
+        <!--jquery-iu for date picker--> 
+    <link rel="stylesheet" href="css/jquery-ui.css" />
+    <script src="http://cannxs.org/eod/EOD_KyleZak/EODProject/datepicker.js"></script>
+    <!--icon for the small picture in the browser tab-->
+    <link rel="icon" href="../../favicon.ico" />
+</head>
+<body>
+
+    <!--<header>
+        <a href="https://www.uaa.alaska.edu/"><p id='tittle'>University of Alaska Anchorage: Engineering on Display</p></a>
+    </header> -->
+    <div id="content">
+        <!--picture slider container -->
+        <div id="cont">
+            <!-- tabs, graph and content div -->
+            <div id="container2">
+                <!--div for tabs -->
+                <div class="tabs">
+                    <ul class="digiTabs">
+                        <li id="1" class="selected t">Electricity usage</li>
+                        <li id="2" class="t">Electricity Demand</li>
+                        <li id="3" class="t">Water usage</li>
+                        <li id="4" class="t">Outside temperature</li>
+                        <li id="5" class="t">Gas Usage</li>
+                        <li id="6" class="t">Find Us</li>
+                        <li id="7" class="t">History</li>
+
+                    </ul>
+                    <!-- TAB 1 -->
+                    <div id="tabs-1" class="tabContent">
+                        <p>Date From: <input type="text" class="datepicker1" readonly="true" id="dateFrom1"> Date To: <input type="text" class="datepicker2" readonly="true" id="dateTo1"></p>
+                        <div class="charts" id="chart1" title="Electricity Graph" style="height:90%;width:99%"></div>
+                    </div>
+                    <!-- end tab 1 content -->
+                    <!-- TAB 2 -->
+                    <div id="tabs-2" class="tabContent">
+                        <p>Date From: <input type="text" class="datepicker1" readonly="true" id="dateFrom2"> Date To: <input type="text" class="datepicker2" readonly="true" id="dateTo2"></p>
+                        <div class="charts" id="chart2" title="Electricity Demand" style="height:90%;width:99%"></div>
+                    </div>
+                    <!-- end tab 2 content -->
+                    <!-- TAB 3 -->
+                    <div id="tabs-3" class="tabContent">
+                        <p>Date From: <input type="text" class="datepicker1" readonly="true" id="dateFrom3"> Date To: <input type="text" class="datepicker2" readonly="true" id="dateTo3"></p>
+                        <div class="charts" id="chart3" title="Water Graph" style="height:90%;width:99%"></div>
+                    </div>
+                    <!-- end tab 3 content -->
+                    <!-- TAB 4 -->
+                    <div id="tabs-4" class="tabContent">
+                        <p>Date From: <input type="text" class="datepicker1" readonly="true" id="dateFrom4"> Date To: <input type="text" class="datepicker2" readonly="true" id="dateTo4"></p>
+                        <div class="charts" id="chart4" title="Temperature Graph" style="height:90%;width:99%"></div>
+                    </div>
+                    <!-- end tab 5 content -->
+                    <div id="tabs-5" class="tabContent">
+                        <p>Date From: <input type="text" class="datepicker1" readonly="true" id="dateFrom5"> Date To: <input type="text" class="datepicker2" readonly="true" id="dateTo5"></p>
+                        <div class="charts" id="chart5" title="Gas Graph" style="height:90%;width:99%"></div>
+                    </div>
+                    <!-- end tab 5 content -->
+                    <!-- TAB 6: google map tab -->
+                    <div id="tabs-6" class="tabContent">
+                        <p>UAA address: 3211 Providence Dr, Anchorage, AK 99508</p>
+                        <p>UAA phone: (907) 786-1800</p>
+                        <div id="map-canvas" title="Map" style="height:80%;"> </div>
+                        <div class="charts" id="chart6" style="display:none"></div>
+                    </div>
+                    <!-- end tab 6 content -->
+                    <!-- TAB 7: history tab -->
+                    <div id="tabs-7" class="tabContent">
+                        <div class="charts" id="chart7" style="height:90%;width:99%;">
+                            <h2>UAA Engineering & Industry Building</h2>
+                            <p id="hist">
+                                A new 81,500 sf facility will house engineering laboratory and teaching areas not currently available on campus. The project includes: communication labs, electrical engineering labs, fluid labs, heat and mass transfer labs, foundation engineering, transportation and highway engineering, land surveying, machine shop, wood shop, service yard, and conferencing/collaborative learning areas.
+                                <br />
+                                A/E: Livingston Slone, Inc.
+                                <br />
+                                CMAR: Neeser Construction, Inc.
+                                <br />
+                            </p>
+                            <img src="images\img1.jpg" />
+                        </div>
+                    </div>
+                    <!-- end tab 7 content -->
+                </div>
+                <br />
+            </div>
+            <!-- end div class for tabs, graphs and content -->
+        </div>
+    </div>
+   <!-- <footer>
+        <small>
+            <i>
+                Copyright &copy; UAA<br />
+                <a href="mailto:acavalcanti@uaa.alaska.edu">acavalcanti@uaa.alaska.edu</a>
+            </i>
+        </small>
+    </footer> -->
+</body>
+</html>
