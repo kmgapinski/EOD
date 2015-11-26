@@ -1,16 +1,16 @@
 ftp:/* 
  */
-        var plot1;
+    var plot1;
 var ch1;
 //var dateIn = new Date();
+//var dateOut = new Date();
 var dateIn = new Date(2015, 4 - 1, 27);
 var dateOut = new Date(2015, 5 - 1, 5);
 var currentTabIdNumber = 1;
 //dateIn = '143323200000';
 //dateIn = '1433318400';
 
-function dateToEpoch(dateToConvert)
-{
+function dateToEpoch(dateToConvert) {
     var newDate;
     newDate = new Date(dateToConvert.getFullYear(), dateToConvert.getMonth(), dateToConvert.getDate()).getTime() / 1; // / 1000;
     //alert("Date: " + dateToConvert + "extracted Date should be in format 1431102608000 and it is " + newDate);
@@ -18,11 +18,10 @@ function dateToEpoch(dateToConvert)
 }
 //resize charts when window resizes
 $(window).resize(function () {
-    plot1.replot({resetAxes: true});
+    plot1.replot({ resetAxes: true });
 });
 //activated on active tab changed
 function tabsAction() {
-    // dateIn = new Date(2015, 4, 29);
     var id;
     var chid;
     var idtab;
@@ -51,14 +50,15 @@ function tabsAction() {
         document.getElementById(idtab).style.display = "block";
         chid = 'chart' + id.toString();
         //method to retrevie array from php files and send the date
-        postPHP(getFileName(id), chid, idtab);
+        if (verifyDates())
+            postPHP(getFileName(id), chid, idtab);
     }
-    // displays history tab
+        // displays history tab
     else if (idtab === "tabs-7") {
         document.getElementById('tabs-7').style.display = "block";
         document.getElementById("chart7").style.display = "block";
     }
-    //displays map which takes user's current location and gives directions to the building
+        //displays map which takes user's current location and gives directions to the building
     else if (idtab === "tabs-6") {
         document.getElementById('tabs-6').style.display = "block";
         var lat;
@@ -78,7 +78,8 @@ function tabsAction() {
                         lng = -149.826814;
                         showbuilding(lat, lng, idtab);
                     },
-                    {maximumAge: Infinity,
+                    {
+                        maximumAge: Infinity,
                         timeout: 5000
                     });
         }
@@ -214,8 +215,8 @@ function myGraph2(s1, name, chartTitle, idtab) {
                 ticks: ticks,
                 label: Xaxis,
                 labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
-                tickOptions: {textColor: col},
-                labelOptions: {textColor: col}
+                tickOptions: { textColor: col },
+                labelOptions: { textColor: col }
             },
             // Pad the y axis just a little so bars can get close to, but
             // not touch, the grid boundaries.  1.2 is the default padding.
@@ -223,8 +224,8 @@ function myGraph2(s1, name, chartTitle, idtab) {
                 labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
                 label: Yaxis,
                 pad: 1.05,
-                tickOptions: {formatString: '%d', textColor: col},
-                labelOptions: {textColor: col}
+                tickOptions: { formatString: '%d', textColor: col },
+                labelOptions: { textColor: col }
             }
         }
 
@@ -233,7 +234,7 @@ function myGraph2(s1, name, chartTitle, idtab) {
     $(idtab).bind('resizestop', function (event, ui) {
         $('#chart1').height($(idtab).height() * 0.96);
         $('#chart1').width($(idtab).width() * 0.96);
-        plot1.replot({resetAxes: true});
+        plot1.replot({ resetAxes: true });
     });
     return plot1;
 }
@@ -281,7 +282,7 @@ function myGraph(s1, name, chartTitle, idtab, miny, maxy) {
         col = '#73C774';
         Xaxis = 'Time Period';
         Yaxis = 'Amount';
-        maxy = maxy + 1;
+        //maxy = maxy + 1;
     }
     else if (chartTitle === 'Water Graph') {
         col = '#2C75FF'; //#2C75FF';
@@ -311,14 +312,14 @@ function myGraph(s1, name, chartTitle, idtab, miny, maxy) {
     }
     plot1 = $.jqplot(name, [s1], {
         //    stackSeries: true,
-        title: {text: chartTitle, textColor: col},
+        title: { text: chartTitle, textColor: col },
         //custom color for the graphs        seriesColors: [col], // '#00749F', '#73C774', '#C7754C', '#17BDB8'],
         seriesColors: [col],
         showMarker: true,
         seriesDefaults: {
             fill: true
         },
-        dataPoints: {color: col},
+        dataPoints: { color: col },
         //in case if labe needed
         /*series: [
          {label: 'B'}
@@ -367,7 +368,7 @@ function myGraph(s1, name, chartTitle, idtab, miny, maxy) {
                     fontSize: '10pt',
                     formatString: '%d'
                 },
-                labelOptions: {textColor: col},
+                labelOptions: { textColor: col },
                 drawMajorGridlines: true,
                 pad: 0
             },
@@ -378,8 +379,8 @@ function myGraph(s1, name, chartTitle, idtab, miny, maxy) {
                 autoscale: true,
                 min: miny,
                 max: maxy,
-                tickOptions: {formatString: '%d', textColor: col},
-                labelOptions: {textColor: col}
+                tickOptions: { formatString: '%d', textColor: col },
+                labelOptions: { textColor: col }
             }
         }
     });
@@ -395,35 +396,39 @@ function myGraph(s1, name, chartTitle, idtab, miny, maxy) {
 $(function () {
     $(".datepicker1").datepicker({
         minDate: new Date(2015, 4 - 1, 24),
-        maxDate: new Date(2015, 5 - 1, 15),
+        maxDate: new Date(),
         defaultDate: dateIn,
         onSelect: function () {
             var chosenDate = $(this).datepicker("getDate");
-            if (chosenDate < dateOut) {
-                dateIn = new Date(chosenDate.valueOf()); //new Date(dateToEpoch(chosenDate));
-                idtab = "tabs-" + currentTabIdNumber;
-                chid = 'chart' + currentTabIdNumber;
-                postPHP(getFileName(currentTabIdNumber), chid, idtab);
-            } else {
-                alert("This date should be earlier than " + dateOut);
-            }
+            if (!verifyDates())
+                return;
+            //if (chosenDate < dateOut) {
+            dateIn = new Date(chosenDate.valueOf()); //new Date(dateToEpoch(chosenDate));
+            idtab = "tabs-" + currentTabIdNumber;
+            chid = 'chart' + currentTabIdNumber;
+            postPHP(getFileName(currentTabIdNumber), chid, idtab);
+            //} else {
+            //    alert("This date should be earlier than " + dateOut);
+            //}
 
         }
     });
     $(".datepicker2").datepicker({
-        minDate: new Date(2015, 4 - 1, 24),
-        maxDate: new Date(2015, 5 - 1, 15),
+        minDate: new Date(2015, 4 - 1, 26),
+        maxDate: new Date(),
         defaultDate: dateOut,
         onSelect: function () {
             var chosenDate = $(this).datepicker("getDate");
-            if (chosenDate > dateIn) {
-                dateOut = new Date(chosenDate.valueOf()); //new Date(dateToEpoch(chosenDate));
-                idtab = "tabs-" + currentTabIdNumber;
-                chid = 'chart' + currentTabIdNumber;
-                postPHP(getFileName(currentTabIdNumber), chid, idtab);
-            } else {
-                alert("This date should be later than " + dateIn);
-            }
+            if (!verifyDates())
+                return;
+            // if (chosenDate > dateIn) {
+            dateOut = new Date(chosenDate.valueOf()); //new Date(dateToEpoch(chosenDate));
+            idtab = "tabs-" + currentTabIdNumber;
+            chid = 'chart' + currentTabIdNumber;
+            postPHP(getFileName(currentTabIdNumber), chid, idtab);
+            //} else {
+            //   alert("This date should be later than " + dateIn);
+            //
 
         }
     });
@@ -431,7 +436,7 @@ $(function () {
 //database has regular date and epoch date, but regular dates don't have min, all has 00:00:00
 //use can this method if regular date's hour,min,sec are fixed
 function extractDate(dateIn) {
-//should be in format of 2015-04-29 00:00:00
+    //should be in format of 2015-04-29 00:00:00
     var newDate = dateIn.getFullYear() + "-" + ("0" + (dateIn.getMonth() + 1)).slice(-2) + "-" + ("0" + dateIn.getDate()).slice(-2) + " " + ("0" + dateIn.getUTCHours()).slice(-2) + ":" + ("0" + dateIn.getUTCMinutes()).slice(-2) + ":" + ("0" + dateIn.getUTCSeconds()).slice(-2);
     return newDate;
 }
@@ -439,61 +444,118 @@ function extractDate(dateIn) {
 //method to retrevie array from php files and send the date
 //in php file should be exactly one echo with json encode for array
 //if more than one echo parsing methods should be changed
-
+//FOR THE NEXT DEVELOPER OF THIS PROJECT:this method pulls the data and if there is missing dates it fills it with random value,
+//in future data shouldn't be missing in database, the dates should be printed to the graph directly or estimation of the values should be improoved
 function postPHP(filename, chid, idtab) {
-    var dateInSend = dateToEpoch(dateIn); //or= extractDate(dateIn);
-    var dateoutSend = dateToEpoch(dateOut);
-    //alert(dateIn + " " + dateOut);
-    $.post(filename, {dateIn: dateInSend, dateTo: dateoutSend})
+    var dateFrom;
+    var dateTo;
+
+    //if the dates are not chosen, by default take seven days before current date
+    if (($('#dateFrom' + currentTabIdNumber).val() == "") || $('#dateTo' + currentTabIdNumber).val() == "") {
+        $(".datepicker2").datepicker('setDate', new Date());
+        var datee = $('.datepicker2').datepicker('getDate');
+        var sevenDaysBefore = new Date();
+        sevenDaysBefore.setDate(datee.getDate() - 7);
+        $(".datepicker1").datepicker('setDate', sevenDaysBefore);
+    }
+    dateFrom = $('#dateFrom' + currentTabIdNumber).val();
+    dateTo = $('#dateTo' + currentTabIdNumber).val();
+
+    var dateFromObj = Date.parse(dateFrom);
+    var dateToObj = Date.parse(dateTo);
+    var daysTotal = dayDiff(dateFromObj, dateToObj) + 1;
+    if (daysTotal <= 0) {
+        plot1.destroy();
+        return;
+    }
+
+    $.post(filename, { dateFrom: dateFrom, dateTo: dateTo })
             .done(function (result) {
-                var mydata = []; //arrray of date points, each point is one day
-                result = result.substring(1, result.length - 1);
-                result = result.split('"').join('');
-                result = result.split(",");
-                //reverse results because php quieries DESC;
-                result.reverse();
-                //convert to integer
-                for (var i = 1; i <= (result.length / (4 * 24)); i++) {
-                    mydata[i - 1] = Number(result[i * 24 * 4]);
+                var arr = JSON.parse("[" + result + "]");
+                var avgUnit = arr[0][2];
+                avgUnit.shift();
+                var dateRecorded = arr[0][3];
+                dateRecorded.shift();
+                var daysMilli = [];
+                for (i = 0; i < dateRecorded.length; i++)
+                    daysMilli.push(Date.parse(dateRecorded[i]));
+
+                var min = parseFloat(arr[0][0][0]);
+                var max = parseFloat(arr[0][1][0]);
+                var startDateString = dateFrom;
+                var startDate = Date.parse(startDateString);
+                var daysExpected = [];
+                for (i = 0; i < daysTotal; i++) {
+                    if (i === 0)
+                        daysExpected.push(startDate);
+                    else
+                        daysExpected.push(addDays(startDate, i));
                 }
 
-                var miny = 0;
-                var maxy = 100;
-                //min and max to fix graphs' y-axis
-                //to do: this methods doesn't properly work since the array from php returns in string format
-                miny = parseInt(arrayMin(mydata));
-                maxy = parseInt(arrayMax(mydata));
+                // generate random points
+                var mixedPoints = [];
+                for (i = 0; i < daysTotal; i++)
+                    mixedPoints.push(Math.random() * (max - min) + min);
+
+                // if there are corresponding dates, replace the randomly generated one
+                for (i = 0; i < daysTotal; i++) {
+                    var currentDate = daysExpected[i];
+                    // get the index of the currentDate
+                    var index = daysMilli.indexOf(currentDate);
+                    if (index !== -1) {
+                        mixedPoints[i] = parseFloat(avgUnit[index]);
+                    }
+                }
+
                 var title = document.getElementById(chid).title;
                 //generate graph
-                ch1 = new myGraph(mydata, chid, title, idtab, miny, maxy);
+                ch1 = new myGraph(mixedPoints, chid, title, idtab, parseInt(min), parseInt(max));
                 document.getElementById(chid).style.display = "block";
                 plot1.replot();
             });
+
+
 }
 ;
+
+function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return Date.parse(result);
+}
+
 //window onload for index page
-function getFileName(id)
-{
+window.onload = function () {
+    //initialize event listeners for the tabs
+    var myTabs = document.getElementsByClassName("t");
+    for (var i = 0; i < myTabs.length; i++) {
+        myTabs[i].addEventListener("click", tabsAction);
+    }
+    //initialize  very first graph        
+    postPHP('http://cannxs.org/eod/EOD_KyleZak/EODProject/queries/ElectricityUsageFromTo.php', 'chart1', "tabs-1");
+};
+function getFileName(id) {
     var filename = '';
     //assign what file to retrieve from depends on the tab
     if (id == 1) {
-        filename = 'queries/ElectricityUsageFromTo.php';
+        filename = 'http://cannxs.org/eod/EOD_KyleZak/EODProject/queries/ElectricityUsageFromTo.php';
     }
     else if (id == 2) {
-        filename = 'queries/ElectricityDemandFromTo.php';
+        filename = 'http://cannxs.org/eod/EOD_KyleZak/EODProject/queries/ElectricityDemandFromTo.php';
     }
     else if (id == 3) {
-        filename = 'queries/WaterUsageFromTo.php';
+        filename = 'http://cannxs.org/eod/EOD_KyleZak/EODProject/queries/WaterUsageFromTo.php';
     }
     else if (id == 4) {
-        filename = 'queries/OutsideTemperatureFromTo.php';
+        filename = 'http://cannxs.org/eod/EOD_KyleZak/EODProject/queries/OutsideTemperatureFromTo.php';
     }
     else if (id == 5) {
-        filename = 'queries/GasConsumptionFromTo.php';
+        filename = 'http://cannxs.org/eod/EOD_KyleZak/EODProject/queries/GasConsumptionFromTo.php';
     }
     else {
-        filename = 'queries/eod.php';
+        filename = 'http://cannxs.org/eod/EOD_KyleZak/EODProject/queries/eod.php';
     }
+
 
     return filename;
 }
@@ -506,7 +568,7 @@ function getTicks(len) {
     //var currDate = new Date();
 
     //get chosen data
-    var tickDate = new Date(dateIn.valueOf());
+    var tickDate = new Date(Date.parse($('#dateFrom' + currentTabIdNumber).val()));
     // var tickDate = new Date(currDate.day()-10);    
     var month = new Array();
     month[0] = "Jan";
@@ -524,8 +586,7 @@ function getTicks(len) {
     // alert(tickDate.getDate()+1);
 
     //add one day to each data point
-    for (var i = 0; i < (len); i++)
-    {
+    for (var i = 0; i < (len) ; i++) {
         ticks.push([i + 1, month[tickDate.getMonth()] + "-" + tickDate.getDate()]);
         tickDate.setDate(tickDate.getDate() + 1);
     }
@@ -533,17 +594,15 @@ function getTicks(len) {
 }
 ;
 
-window.onload = function () {
-    //initialize event listeners for the tabs
-    var myTabs = document.getElementsByClassName("t");
-    for (var i = 0; i < myTabs.length; i++) {
-        myTabs[i].addEventListener("click", tabsAction);
-    }
-    $(".datepicker2").datepicker('setDate', new Date(2015, 5 - 1, 5));
-        var datee = $('.datepicker2').datepicker('getDate');
-        var sevenDaysBefore = new Date(2015, 5 - 1, 5);
-        sevenDaysBefore.setDate(datee.getDate() - 7);
-        $(".datepicker1").datepicker('setDate', sevenDaysBefore);
-    //initialize  very first graph
-    postPHP('queries/ElectricityUsageFromTo.php', 'chart1', "tabs-1");
-};
+function verifyDates() {
+    // if there's nothing in the textarea, do nothing
+    var dateFrom = $('#dateFrom' + currentTabIdNumber).datepicker("getDate");
+    var dateTo = $('#dateTo' + currentTabIdNumber).datepicker("getDate");
+    if (dateFrom === null || dateTo === null)
+        return false;
+    return true;
+}
+
+function dayDiff(first, second) {
+    return (second - first) / (1000 * 60 * 60 * 24);
+}
