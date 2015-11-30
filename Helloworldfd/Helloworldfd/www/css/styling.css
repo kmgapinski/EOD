@@ -1,10 +1,11 @@
 html{
     height: 100%;
-    min-width:300px; /*original 300
+    min-width: 100%; /*original 300
     */
 }
 body {
     font-family: Arial, Helvetica, sans-serif;
+    background-color: darkseagreen;
     margin:0 ;
     padding: 0px;
     position: relative;
@@ -44,50 +45,53 @@ body  footer{
 */
 
 body #content{
-    margin: 0px;
+    margin: 2px;
     position: absolute;
     /*top:80px;*/
     /*bottom:50px;*/
     width:100%;
-    background-image:  url("../images/backimg.jpg");
+    background-image:  url("../images/bacimg.jpg");
     background-size: 100% 100%;
-    background-repeat: no-repeat;
+    background-repeat: repeat; /*original no-repeat*/
     overflow:auto;
     height:auto;
     display:inline-block;
     float:none;
     margin:auto;
+      
 }
 #cont{
     text-align: center;
     align-content:center;
-    margin:auto;
+    margin:0px; /*orignial auto*/
 }
 #container1,#container2{
     padding:0px; /*20*/
     display: inline-block;    
-    align-content:center;
+    align-content: center;
     text-align: center;
     margin:auto;
-    height:580px !important; /*580*/
-    margin-top:5px; /*10*/
-    margin-bottom:5px !important; /*25*/
+    /*height:580px !important; /*580*/
+    margin-top:0px; /*10*/
+    margin-bottom:2px !important; /*25*/
 }
+/*
 #container1{
-    width:550px;
+    width:500px; /*original 550
     margin-right:55px !important; 
 }
+    */
 #container2{
-     margin-left: 5px; /*25*/
+    margin-left: 0px; /*25*/
     color:#fec425; 
-    width: 680px; /*680*/
+    /*width: 570px; /*680*/
 }
 h1 {
     color: blue;
     border: 2px dotted green;
     text-align: center;
     margin-top: 0px;
-    border-radius: 15px;
+    border-radius: 15px; /*orign 15*/
 }
 label {
     float: left;
@@ -97,7 +101,7 @@ label {
 /*tabs*/
 .tabs {
     position:relative;
-    left:10px;
+    /*left:5px;*/
     height:inherit;
     width:inherit;
 }
@@ -112,7 +116,7 @@ label {
     margin: 0;
     padding: 0px;
     top: 1px;
-    width:710px !important; /*original 710*/
+    width:600px !important; /*original 710*/
     display: table;
     width: 100%;
 }
@@ -138,7 +142,7 @@ label {
 }
 .tabContent {
     border:solid 1px black;
-    padding:14px;
+    padding:0px;   /*orignial 14*/
     background-color:rgba(0,0,0,0.7) ;
     /*border-radius:15px;
     border-top-left-radius: 0px;*/
@@ -217,10 +221,4 @@ iframe{
 .slide-btn.active, .slide-btn:hover {
     color: #fec425;
     cursor: pointer;
-}
-.sliddd {
-    float: none;
-    position: relative;
-    width: 500px;
-    height: 350px;
 }

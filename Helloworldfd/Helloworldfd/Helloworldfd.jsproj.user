@@ -4,10 +4,10 @@
     <ReferenceCachePath>C:\Users\kyleg\AppData\Local\Temp\Helloworldfd_refcache</ReferenceCachePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
-    <DebuggerFlavor>AndroidEmulator</DebuggerFlavor>
+    <DebuggerFlavor>RippleNexus7</DebuggerFlavor>
     <AndroidEmulatorID>AndroidDevice;Device</AndroidEmulatorID>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|iOS'">
-    <DebuggerFlavor>iOSLocalDevice</DebuggerFlavor>
+    <DebuggerFlavor>RippleiPad3</DebuggerFlavor>
   </PropertyGroup>
 </Project>
